@@ -6,15 +6,33 @@
     <title>Document</title>
 </head>
 <body>
-    
-    <header>
-        <nav>
-            <button class="btn btn-home">Home</button>
-<button class="btn btn-menu">Menu</button>
-<button class="btn btn-about">About</button>
-        </nav>
-    </header>
-    <div id="content">
-    
+  <div id="projects">
+    <h2>Projects</h2>
+    <ul id="project-list"></ul>
+    <form id="new-project-form">
+      <input id="project-name" placeholder="New project name" />
+      <button type="submit">Add Project</button>
+    </form>
+  </div>
+
+  <div id="todos">
+    <h2>Todos</h2>
+    <div id="todo-list"></div>
+    <form id="new-todo-form">
+      <input id="todo-title" placeholder="Title" />
+      <input id="todo-desc" placeholder="Description" />
+      <input id="todo-date" type="date" />
+      <select id="todo-priority">
+        <option>Low</option>
+        <option>Medium</option>
+        <option>High</option>
+      </select>
+      <select id="todo-project">
+        <option value="">Default Project</option>
+        <!-- Project options dynamically inserted later -->
+      </select>
+      <button type="submit">Add Todo</button>
+    </form>
+  </div>
 </body>
 </html>
