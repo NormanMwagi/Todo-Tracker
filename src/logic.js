@@ -18,6 +18,7 @@ function createProject(name) {
   const newProjectId = crypto.randomUUID();
   const newProject = Project(newProjectId, name, new Date());
   projects.push(newProject);
+  populateProjectsOptions();
   return newProject;
 }
 
@@ -38,13 +39,27 @@ function createTodo(title, description, dueDate, priority, complete, projectId) 
   return newTodo;
 }
 
+function populateProjectsOptions(){
+  const projectSelect = document.querySelector('#todo-project');
+  projectSelect.innerHTML = '';
+
+  projects.forEach(project => {
+    const option = document.createElement('option');
+    option.value = project.id;
+    option.textContent = project.project_name;
+    projectSelect.appendChild(option);
+  });
+}
+
 function getProjects() {
+  //console.log(projects);
   return [...projects];
 }
 
 function getTodos(projectId) {
   const project = projects.find(p => p.id === projectId) || projects.find(p => p.id === defaultProjectId);
+  //console.log(todos);
   return project?.todos || [];
 }
 
-export { createProject, createTodo, getProjects, getTodos, defaultProjectId };
+export { createProject, createTodo, getProjects, getTodos, defaultProjectId, populateProjectsOptions };

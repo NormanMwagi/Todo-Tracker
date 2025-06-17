@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 </head>
+
 <body>
+  <div>
+    <h1>Todo Tracker</h1>
+  </div>
   <div id="projects">
     <h2>Projects</h2>
     <ul id="project-list"></ul>
@@ -28,11 +33,14 @@
         <option>High</option>
       </select>
       <select id="todo-project">
-        <option value="">Default Project</option>
-        <!-- Project options dynamically inserted later -->
+        <option value="projectId">Select Project</option>
       </select>
       <button type="submit">Add Todo</button>
     </form>
   </div>
+  <div id="grouped" class="grouped-todos">
+    <h2>Todos Grouped by Project</h2>
+  </div>
 </body>
+
 </html>

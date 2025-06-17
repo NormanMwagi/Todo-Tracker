@@ -26,6 +26,46 @@ function renderTodos(projectId = defaultProjectId) {
   });
 }
 
+function displayTodosByProject(projectId = defaultProjectId) {
+  const groupedContainer = document.getElementById('grouped');
+  
+  const groupedTodos = {};
+  
+  // Use your getTodos() function to get all todos
+  getTodos(projectId).forEach(todo => {
+    if (!groupedTodos[todo.projectId]) {
+      const project = getProjects().find(p => p.id === todo.projectId);
+      groupedTodos[todo.projectId] = {
+        projectName: project ? project.project_name : 'Unknown Project',
+        todos: []
+      };
+    }
+    groupedTodos[todo.projectId].todos.push(todo);
+  });
+
+  // Create and append project groups
+  for (const projectId in groupedTodos) {
+    const projectGroup = groupedTodos[projectId];
+    const projectDiv = document.createElement('div');
+    projectDiv.className = 'project-group';
+    
+    const projectHeader = document.createElement('h3');
+    projectHeader.textContent = projectGroup.projectName;
+    projectDiv.appendChild(projectHeader);
+    
+    projectGroup.todos.forEach(todo => {
+      const todoItem = document.createElement('p');
+      const completeCheck = document.createElement('input');
+      completeCheck.type = 'checkbox';
+      completeCheck.checked = todo.completed;
+      todoItem.textContent = `${todo.title}`;
+      projectDiv.appendChild(todoItem, completeCheck);
+    });
+    
+    groupedContainer.appendChild(projectDiv);
+  }
+}
+
 function setupEventListeners() {
   document.querySelector('#new-project-form').addEventListener('submit', (e) => {
     e.preventDefault();
@@ -47,10 +87,11 @@ function setupEventListeners() {
 
     if (title.trim()) {
       createTodo(title, description, dueDate, priority, false, projectId || undefined);
-      renderTodos(projectId || defaultProjectId);
+      //renderTodos(projectId || defaultProjectId);
+      displayTodosByProject(projectId || defaultProjectId);
     }
     e.target.reset();
   });
 }
 
-export { renderProjects, renderTodos, setupEventListeners };
+export { renderProjects, renderTodos, setupEventListeners, displayTodosByProject };
