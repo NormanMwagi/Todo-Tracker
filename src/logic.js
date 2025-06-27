@@ -1,15 +1,14 @@
-let todos = []; // Master array for all todo items
-let projects = []; // Master array for all project items
+import { format, isToday, isTomorrow, isPast, parseISO, addDays } from 'date-fns';
 
-// --- Data Model Factories ---
+let todos = []; 
+let projects = []; 
+
 const TodoItem = (id, title, description, dueDate, priority, completed, projectId) => {
-    // Renamed 'complete' to 'completed' for consistency and clarity
-    return { id, title, description, dueDate, priority, completed, projectId };
+    
+    return { id, title, description, dueDate, priority, completed, projectId, dueStatus: calculateDueStatus(dueDate)};
 };
 
 const Project = (id, project_name, createdOn) => {
-    // Projects should NOT contain their own 'todos' array here.
-    // Todos will be linked by their 'projectId'.
     return { id, project_name, createdOn };
 };
 
@@ -91,31 +90,26 @@ function updateTodo(id, updates) {
         saveTodosToLocalStorage(); // Save todos array after updating
         return true;
     }
-    return false; // Todo not found
+    return false;
 }
 
 function getProjects() {
-    return [...projects]; // Return a shallow copy
+    return [...projects]; 
 }
 
-function getTodos(projectId = null) { // Default to null for projectId
+function getTodos(projectId = null) { 
     if (projectId) {
         return todos.filter(todo => todo.projectId === projectId);
     }
-    return [...todos]; // Return all todos if no specific project is requested
+    return [...todos]; 
 }
 
-// --- UI-related function (still in logic.js for convenience) ---
 function populateProjectsOptions() {
     const projectSelect = document.querySelector('#todo-project');
     if (!projectSelect) return;
 
     projectSelect.innerHTML = '';
-    // Add a default "Select Project" option if desired
-    // const defaultOption = document.createElement('option');
-    // defaultOption.value = '';
-    // defaultOption.textContent = 'Select Project';
-    // projectSelect.appendChild(defaultOption);
+    
 
 
     projects.forEach(project => {
@@ -124,17 +118,49 @@ function populateProjectsOptions() {
         option.textContent = project.project_name;
         projectSelect.appendChild(option);
     });
-    // Set the default project in the dropdown if it's there
     projectSelect.value = defaultProjectId;
 }
 
+function deleteTodo(id) {
+    const index = todos.findIndex(todo => todo.id === id);
+    if (index > -1) {
+        todos.splice(index, 1);
+        saveTodosToLocalStorage();
+        return true;
+    }
+    return false;
+}
+
+function calculateDueStatus(dueDate) {
+    if (!dueDate) return 'no-due-date';
+    
+    const date = parseISO(dueDate);
+    
+    if (isPast(date)) {
+        return 'overdue';
+    } else if (isToday(date)) {
+        return 'due-today';
+    } else if (isTomorrow(date)) {
+        return 'due-tomorrow';
+    } else if (isWithinNextWeek(date)) {
+        return 'due-soon';
+    }
+    return 'due-later';
+}
+
+// Helper function to check if within next week
+function isWithinNextWeek(date) {
+    const nextWeek = addDays(new Date(), 7);
+    return date <= nextWeek;
+}
 
 export {
     createProject,
     createTodo,
-    updateTodo, // Export this new function!
+    updateTodo,
     getProjects,
     getTodos,
     populateProjectsOptions,
-    defaultProjectId
+    defaultProjectId,
+    deleteTodo
 };

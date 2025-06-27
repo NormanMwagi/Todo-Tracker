@@ -149,8 +149,8 @@ dialog::backdrop {
 
 dialog.add-project{
     position: fixed;
-    top: 19%;
-    left: 32%;
+    top: 25%;
+    left: 36%;
     padding: 2rem;
     border: none;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
@@ -224,4 +224,97 @@ select{
     height: 20px;
     cursor: pointer;
     border-radius: 14px;
+}
+
+/* styles.css */
+.action-buttons {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+}
+
+.edit-btn, .delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 4px;
+}
+
+.edit-btn {
+    color: #4CAF50;
+}
+
+.delete-btn {
+    color: #f44336;
+}
+
+.due-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 15px;
+    font-size: 0.9rem;
+}
+
+.due-date {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.status-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+/* Due status colors */
+.overdue .due-date {
+    background-color: #ffebee;
+    color: #c62828;
+}
+.overdue .status-indicator {
+    background-color: #c62828;
+}
+
+.due-today .due-date {
+    background-color: #fff8e1;
+    color: #f57f17;
+}
+.due-today .status-indicator {
+    background-color: #f57f17;
+}
+
+.due-tomorrow .due-date {
+    background-color: #e3f2fd;
+    color: #1565c0;
+}
+.due-tomorrow .status-indicator {
+    background-color: #1565c0;
+}
+
+.due-soon .due-date {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+.due-soon .status-indicator {
+    background-color: #2e7d32;
+}
+
+.due-later .due-date {
+    background-color: #f5f5f5;
+    color: #616161;
+}
+.due-later .status-indicator {
+    background-color: #bdbdbd;
+}
+
+.no-due-date .due-date {
+    background-color: #f5f5f5;
+    color: #9e9e9e;
+    font-style: italic;
+}
+.no-due-date .status-indicator {
+    display: none;
 }
